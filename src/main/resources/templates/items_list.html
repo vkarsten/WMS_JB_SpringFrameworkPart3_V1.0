@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;1,600&display=swap" rel="stylesheet">
     <title>List all items</title>
 </head>
 <body>
 <div>
-    <h2>Welcome to Warehouse Management System</h2>
+    <h2 class="head2">Welcome to Warehouse Management System</h2>
 
-    <p><a href="/">Home Page</a></p>
+    <p><a href="/" class="link_menu">Home Page</a></p>
 
     <div th:each="warehouse : ${warehouses}" >
-        <a th:text="'List items from warehouse ' + ${warehouse}" th:href="'/listItemsByWarehouse/' + ${warehouse}"></a>
+        <a th:text="'List items from warehouse ' + ${warehouse}" th:href="'/listItemsByWarehouse/' + ${warehouse}" class="link_menu"></a>
     </div>
 
     <h3>All Items List  <span th:text="'(Count: ' + ${itemCount} + ')'"></span></h3>

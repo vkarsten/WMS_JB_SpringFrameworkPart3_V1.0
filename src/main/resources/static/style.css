@@ -1,0 +1,43 @@
+:root {
+    --wood:#81715E;
+    --pencil-yellow:#FAAE3D;
+    --dark-yellow:#db9730;
+    --orange:#E38533;
+    --dark-orange:#c47229;
+    --pink-eraser:#E4535E;
+    --dark-pink:#cc4752;
+    --off-white:#FCFCFA;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--wood);
+    margin: 50px;
+}
+
+.head2 {
+    text-transform: uppercase;
+}
+
+.head3, .head4 {
+    width: 50%;
+    height: 50em;
+    margin : 0;
+    padding : 0;
+    display : inline;
+    text-transform: uppercase;
+}
+
+.link_menu {
+    color: var(--wood);
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.link_menu:hover {
+    color: var(--dark-pink);
+}
+
+td {
+    padding: 0px 30px 0px 0px;
+}

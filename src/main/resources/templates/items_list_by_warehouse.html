@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org"4>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;1,600&display=swap" rel="stylesheet">
     <title>List Items By Warehouse</title>
 </head>
 <body>
-<style type="text/css">
-    .head3, .head4 {
-        width: 50%;
-        height: 50em;
-        margin : 0;
-        padding : 0;
-        display : inline;
-
-    }
-</style>
 <div>
-    <h2>Welcome to Warehouse Management System</h2>
+    <h2 class="head2">Welcome to Warehouse Management System</h2>
 
-    <p><a href="/">Home Page</a></p> <p><a href="/listAllItems">List all items</a></p>
+    <p><a href="/" class="link_menu">Home Page</a></p> <p><a href="/listAllItems" class="link_menu">List all items</a></p>
 
     <h3 th:text="'Items in warehouse ' + ${warehouseId}" class="head3"></h3>
     <h3 th:text="'(Count: ' + ${itemCount} + ')'" class="head4"></h3>
