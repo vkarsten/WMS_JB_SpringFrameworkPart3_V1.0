@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org"4>
+    <title>List Items By Warehouse</title>
+</head>
+<body>
+<style type="text/css">
+    .head3, .head4 {
+        width: 50%;
+        height: 50em;
+        margin : 0;
+        padding : 0;
+        display : inline;
+
+    }
+</style>
+<div>
+    <h2>Welcome to Warehouse Management System</h2>
+
+    <p><a href="/">Home Page</a></p> <p><a href="/listAllItems">List all items</a></p>
+
+    <h3 th:text="'Items in warehouse ' + ${warehouseId}" class="head3"></h3>
+    <h3 th:text="'(Count: ' + ${itemCount} + ')'" class="head4"></h3>
+
+    <table>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.state}"></td>
+            <td th:text="${item.category}"></td>
+            <td th:text="${item.dateOfStock}"></td>
+            <td th:text="${item.warehouse}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

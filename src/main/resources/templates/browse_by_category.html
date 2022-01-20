@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Browse By Category</title>
+</head>
+<body>
+<div>
+    <h2>Welcome to Warehouse Management System</h2>
+
+    <p><a href="/">Home Page</a></p>
+
+    <h3>All Categories <span th:text="'(Count: ' + ${categoryCount} + ')'"></span></h3>
+
+    <table>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td><a th:text="${category}" th:href="'/browseByCategory/' + ${category}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
