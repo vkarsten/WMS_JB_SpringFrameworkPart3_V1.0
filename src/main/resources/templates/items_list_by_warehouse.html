@@ -18,6 +18,12 @@
     <h3 th:text="'(Count: ' + ${itemCount} + ')'" class="head4"></h3>
 
     <table>
+        <tr>
+            <th>State</th>
+            <th>Category</th>
+            <th>Date of Stock</th>
+            <th>Warehouse</th>
+        </tr>
         <tbody>
         <tr th:each="item : ${items}">
             <td th:text="${item.state}"></td>
