@@ -6,7 +6,8 @@
     <link rel="stylesheet" th:href="@{/style.css}"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;1,600&display=swap"
+          rel="stylesheet">
     <title>List all items</title>
 </head>
 <body>
@@ -15,19 +16,26 @@
 
     <p><a href="/" class="link_menu">Home Page</a></p>
 
-    <div th:each="warehouse : ${warehouses}" >
-        <a th:text="'List items from warehouse ' + ${warehouse}" th:href="'/listItemsByWarehouse/' + ${warehouse}" class="link_menu"></a>
+    <div th:each="warehouse : ${warehouses}">
+        <a th:text="'List items from warehouse ' + ${warehouse}" th:href="'/listItemsByWarehouse/' + ${warehouse}"
+           class="link_menu"></a>
     </div>
 
-    <h3>All Items List  <span th:text="'(Count: ' + ${itemCount} + ')'"></span></h3>
+    <h3>All Items List <span th:text="'(Count: ' + ${itemCount} + ')'"></span></h3>
 
     <table>
+        <tr>
+            <th>State</th>
+            <th>Category</th>
+            <th>Date of Stock</th>
+            <th>Warehouse</th>
+        </tr>
         <tbody>
         <tr th:each="item : ${items}">
             <td th:text="${item.state}"></td>
             <td th:text="${item.category}"></td>
             <td th:text="${item.dateOfStock}"></td>
-            <td th:text="${item.warehouse}"></td>
+            <td th:text="${item.warehouse}" class="cell_right"></td>
         </tr>
         </tbody>
     </table>

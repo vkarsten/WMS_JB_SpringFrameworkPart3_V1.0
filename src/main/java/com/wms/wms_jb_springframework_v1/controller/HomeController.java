@@ -52,7 +52,7 @@ public class HomeController {
                 List.class
         );
 
-        model.addAttribute("warehouseId", warehouseId);
+        model.addAttribute("warehouse", warehouseId);
         model.addAttribute("items", response);
         model.addAttribute("itemCount", response.size());
         return "items_list_by_warehouse";

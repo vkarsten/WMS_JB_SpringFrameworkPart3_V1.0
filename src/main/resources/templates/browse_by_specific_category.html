@@ -27,7 +27,7 @@
     <tr th:each="item : ${items}">
         <td th:text="${item.state} + ' ' + ${category}"></td>
         <td th:text="${item.dateOfStock}"></td>
-        <td th:text="${item.warehouse}"></td>
+        <td th:text="${item.warehouse}" class="cell_right"></td>
     </tr>
     </tbody>
 </table>
