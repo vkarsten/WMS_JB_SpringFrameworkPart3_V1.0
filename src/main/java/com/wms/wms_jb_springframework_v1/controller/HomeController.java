@@ -136,8 +136,6 @@ public class HomeController {
 
     @PostMapping("/orderPage")
     public String postOrderPage(@ModelAttribute("orderItem") OrderItem orderItem, Model model) {
-        System.out.println(orderItem.getQuantity());
-        System.out.println(orderItem.getItemName());
         warehouseService.removeItemsFromRepositoryAfterOrder(orderItem.getItemName(), orderItem.getQuantity());
 
         model.addAttribute("orderedItems", orderItem.getItemName());
