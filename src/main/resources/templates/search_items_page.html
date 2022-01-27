@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;1,600&display=swap"
+          rel="stylesheet">
+    <title>Search an item</title>
+</head>
+<body>
+<div>
+    <h2 class="head2">Welcome to Warehouse Management System</h2>
+
+    <p><a href="/" class="link_menu">Home Page</a></p>
+
+    <h3>Search an item</h3>
+
+    <form th:object="${item}" th:action="@{/searchItem}" method="get">
+        <input type="text" name="search" id="search" th:value="${search}"/>
+        <input type="submit" value="Search"/>
+        <div th:if="${not #lists.isEmpty(search)}">
+
+    <h3>Search results <span th:text="'(Count: ' + ${itemCount} + ')'"></span></h3>
+    <table>
+        <tr>
+            <th>State</th>
+            <th>Category</th>
+            <th>Date of Stock</th>
+            <th>Warehouse</th>
+        </tr>
+        <tbody>
+        <tr th:each="item : ${search}">
+            <td th:text="${item.state}"></td>
+            <td th:text="${item.category}"></td>
+            <td th:text="${item.dateOfStock}"></td>
+            <td th:text="${item.warehouse}" class="cell_right"></td>
+            <td sec:authorize="isAuthenticated()"><a th:href="@{/orderPage(state=${item.state},category=${item.category})}" class="link_menu">Order</a></td>
+        </tr>
+        </tbody>
+    </table>
+        </div>
+    </form>
+</div>
+</body>
+</html>

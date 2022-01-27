@@ -94,8 +94,8 @@ public class WarehouseRepository {
 
         List<Item> allItems = new ArrayList<Item>();
 
-        //for(Warehouse warehouse : WAREHOUSE_LIST) {
-        for(int i=0; i < WAREHOUSE_LIST.size(); i++) {
+        // for(Warehouse warehouse : WAREHOUSE_LIST) {
+        for (int i=0; i < WAREHOUSE_LIST.size(); i++) {
             List<Item> itemsWarehouse = new ArrayList<Item>();
             for(Item item : WAREHOUSE_LIST.get(i).getStock()) {
                 item.setWarehouse(WAREHOUSE_LIST.get(i).getId());

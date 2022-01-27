@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;1,600&display=swap"
+          rel="stylesheet">
+    <title>Order an item</title>
+</head>
+<body>
+<div>
+    <h2 class="head2">Welcome to Warehouse Management System</h2>
+
+    <p><a href="/" class="link_menu">Home Page</a></p>
+
+    <h3>Order an item</h3>
+
+    <form th:action="@{/orderPage}" th:object="${orderItem}" method="post">
+        <label for="itemName" th:text="'Item to order'"/>
+        <input type="text" displayname="itemName" id="itemName" th:value="${orderItem.itemName}" th:field="${orderItem.itemName}"/>
+        <br>
+        <label for="quantity" th:text="'(Available amount: ' + ${count} + ')'"/>
+        <input type="number" name="quantity" id="quantity" th:field="${orderItem.quantity}"/>
+        <input type="submit" value="Order"/>
+    </form>
+</div>
+</body>
+</html>

@@ -1,19 +1,29 @@
 package com.wms.wms_jb_springframework_v1.controller;
 
 import com.wms.wms_jb_springframework_v1.model.Item;
+import com.wms.wms_jb_springframework_v1.model.OrderItem;
+import com.wms.wms_jb_springframework_v1.service.WarehouseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
 @Controller
 public class HomeController {
     RestTemplate restTemplate;
+    WarehouseService warehouseService;
+
+    @Autowired
+    public HomeController(WarehouseService warehouseService) {
+        this.warehouseService = warehouseService;
+    }
 
     @GetMapping("/")
     public String showHome() {
@@ -87,5 +97,51 @@ public class HomeController {
         model.addAttribute("items", response);
         model.addAttribute("itemCount", response.size());
         return "browse_by_specific_category";
+    }
+
+
+    @RequestMapping(value = "/searchItem", method = RequestMethod.GET)
+    public String searchItemByKeyword(@RequestParam(value = "search", required = false) String searchItem, HttpServletRequest request, Model model) {
+        restTemplate = new RestTemplate();
+        String itemResourceUrl = "http://localhost:" + request.getLocalPort() + "/warehouse/searchItem/" + searchItem;
+
+        List<Item> response = restTemplate.getForObject(
+                itemResourceUrl,
+                List.class
+        );
+
+        model.addAttribute("search", response);
+        model.addAttribute("itemCount", response.size());
+        return "search_items_page";
+    }
+
+    @RequestMapping("/loginPage")
+    public String login(@RequestParam(value = "loginFailed", defaultValue = "false") Boolean loginFailed, Model model) {
+        model.addAttribute("loginFailed", loginFailed);
+        return "login";
+    }
+
+    @GetMapping("/orderPage")
+    public String orderPage(@RequestParam(value = "state") String state,
+                            @RequestParam(value = "category") String category,
+                            Model model) {
+        String itemName = state + " " + category;
+        List<Item> availableItems = warehouseService.find(itemName);
+
+        model.addAttribute("availableItems", availableItems);
+        model.addAttribute("count", availableItems.size());
+        model.addAttribute("orderItem", new OrderItem(itemName, 1));
+        return "order_item_page";
+    }
+
+    @PostMapping("/orderPage")
+    public String postOrderPage(@ModelAttribute("orderItem") OrderItem orderItem, Model model) {
+        System.out.println(orderItem.getQuantity());
+        System.out.println(orderItem.getItemName());
+        warehouseService.removeItemsFromRepositoryAfterOrder(orderItem.getItemName(), orderItem.getQuantity());
+
+        model.addAttribute("orderedItems", orderItem.getItemName());
+        model.addAttribute("amount", orderItem.getQuantity());
+        return "post_order_item_page";
     }
 }
