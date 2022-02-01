@@ -20,10 +20,11 @@
 
     <form th:action="@{/orderPage}" th:object="${orderItem}" method="post">
         <label for="itemName" th:text="'Item to order'"/>
-        <input type="text" displayname="itemName" id="itemName" th:value="${orderItem.itemName}" th:field="${orderItem.itemName}"/>
+        <input type="text" displayname="itemName" id="itemName" th:value="${orderItem.itemName}" th:field="${orderItem.itemName}" readonly/>
         <br>
         <label for="quantity" th:text="'(Available amount: ' + ${count} + ')'"/>
-        <input type="number" name="quantity" id="quantity" th:field="${orderItem.quantity}"/>
+        <input type="number" name="quantity" id="quantity" th:field="${orderItem.quantity}" min="1" th:max="${count}"/>
+        <p th:if="${#fields.hasErrors('quantity')}" class="error">Quantity must be more than 0!</p>
         <input type="submit" value="Order"/>
     </form>
 </div>

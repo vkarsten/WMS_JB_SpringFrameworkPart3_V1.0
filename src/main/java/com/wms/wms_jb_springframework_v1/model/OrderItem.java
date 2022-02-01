@@ -1,8 +1,13 @@
 package com.wms.wms_jb_springframework_v1.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class OrderItem {
     private String itemName;
-    private int quantity;
+    @NotNull
+    @Min(1)
+    private Integer quantity;
 
     public OrderItem(String itemName, int quantity) {
         this.itemName = itemName;

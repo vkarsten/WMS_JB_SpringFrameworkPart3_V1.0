@@ -17,7 +17,8 @@
     <p><a href="/" class="link_menu">Home Page</a></p>
 
     <h3>Order an item</h3>
-    <p th:text="'Congrats! You successfully ordered ' + ${amount} + ' ' + ${orderedItems}"></p>
+        <p th:if="${amount == 1}" th:text="'Congrats! You successfully ordered 1 ' + ${orderedItems} + '.'"></p>
+        <p th:unless="${amount == 1}" th:text="'Congrats! You successfully ordered ' + ${amount} + ' ' + ${orderedItems} + 's.'"></p>
 </div>
 </body>
 </html>

@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -101,17 +103,21 @@ public class HomeController {
 
 
     @RequestMapping(value = "/searchItem", method = RequestMethod.GET)
-    public String searchItemByKeyword(@RequestParam(value = "search", required = false) String searchItem, HttpServletRequest request, Model model) {
+    public String searchItemByKeyword(@RequestParam(value = "search", defaultValue = "") String searchItem, HttpServletRequest request, Model model) {
         restTemplate = new RestTemplate();
-        String itemResourceUrl = "http://localhost:" + request.getLocalPort() + "/warehouse/searchItem/" + searchItem;
 
-        List<Item> response = restTemplate.getForObject(
-                itemResourceUrl,
-                List.class
-        );
+        if (!searchItem.isBlank()) {
+            String itemResourceUrl = "http://localhost:" + request.getLocalPort() + "/warehouse/searchItem/" + searchItem;
 
-        model.addAttribute("search", response);
-        model.addAttribute("itemCount", response.size());
+            List<Item> response = restTemplate.getForObject(
+                    itemResourceUrl,
+                    List.class
+            );
+
+            model.addAttribute("search", response);
+            model.addAttribute("itemCount", response.size());
+        }
+
         return "search_items_page";
     }
 
@@ -135,9 +141,11 @@ public class HomeController {
     }
 
     @PostMapping("/orderPage")
-    public String postOrderPage(@ModelAttribute("orderItem") OrderItem orderItem, Model model) {
+    public String postOrderPage(@ModelAttribute("orderItem") @Valid OrderItem orderItem, BindingResult bindingResult, Model model) {
         warehouseService.removeItemsFromRepositoryAfterOrder(orderItem.getItemName(), orderItem.getQuantity());
-
+        if (bindingResult.hasErrors()) {
+            return "order_item_page";
+        }
         model.addAttribute("orderedItems", orderItem.getItemName());
         model.addAttribute("amount", orderItem.getQuantity());
         return "post_order_item_page";

@@ -19,7 +19,7 @@
     <h3>Search an item</h3>
 
     <form th:object="${item}" th:action="@{/searchItem}" method="get">
-        <input type="text" name="search" id="search" th:value="${search}"/>
+        <input type="text" name="search" id="search" placeholder="Search an item"/>
         <input type="submit" value="Search"/>
         <div th:if="${not #lists.isEmpty(search)}">
 

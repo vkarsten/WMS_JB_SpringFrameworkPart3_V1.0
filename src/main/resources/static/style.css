@@ -51,3 +51,43 @@ td {
 .cell_right {
     text-align: right;
 }
+
+label {
+    font-family:inherit;
+}
+
+input {
+    font-family:inherit;
+    color: inherit;
+    margin: 5px 10px 15px 15px;
+    padding: 10px 25px;
+    outline: none;
+    border: 2px solid var(--off-white);
+    border-radius: 7px;
+    box-shadow: 0 0 15px 4px rgba(0,0,0,0.06);
+}
+
+input[type=submit] {
+    margin: 10px 10px 10px 0px;
+    padding: 10px 25px;
+    text-transform: uppercase;
+    font-weight: 800;
+    background-color: var(--pencil-yellow);
+    border: 2px solid var(--pencil-yellow);
+}
+
+input:focus {
+    border: 2px solid var(--orange);
+}
+
+input[type=submit]:hover {
+    color: var(--off-white);
+    background-color: var(--pink-eraser);
+    border: 2px solid var(--dark-pink);
+}
+
+.error {
+    color: var(--pink-eraser);
+    text-transform: uppercase;
+}
+
