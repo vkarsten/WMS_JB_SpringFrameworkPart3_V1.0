@@ -104,9 +104,9 @@ public class HomeController {
 
     @RequestMapping(value = "/searchItem", method = RequestMethod.GET)
     public String searchItemByKeyword(@RequestParam(value = "search", defaultValue = "") String searchItem, HttpServletRequest request, Model model) {
-        restTemplate = new RestTemplate();
-
         if (!searchItem.isBlank()) {
+            restTemplate = new RestTemplate();
+
             String itemResourceUrl = "http://localhost:" + request.getLocalPort() + "/warehouse/searchItem/" + searchItem;
 
             List<Item> response = restTemplate.getForObject(
@@ -141,11 +141,21 @@ public class HomeController {
     }
 
     @PostMapping("/orderPage")
-    public String postOrderPage(@ModelAttribute("orderItem") @Valid OrderItem orderItem, BindingResult bindingResult, Model model) {
-        warehouseService.removeItemsFromRepositoryAfterOrder(orderItem.getItemName(), orderItem.getQuantity());
+    public String postOrderPage(@ModelAttribute("orderItem") @Valid OrderItem orderItem, HttpServletRequest request, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             return "order_item_page";
         }
+
+        restTemplate = new RestTemplate();
+
+        String itemResourceUrl = "http://localhost:" + request.getLocalPort() + "/warehouse/removeItems/" + orderItem.getItemName() + "/" + orderItem.getQuantity();
+
+        List<Item> response = restTemplate.getForObject(
+                itemResourceUrl,
+                List.class
+        );
+
         model.addAttribute("orderedItems", orderItem.getItemName());
         model.addAttribute("amount", orderItem.getQuantity());
         return "post_order_item_page";

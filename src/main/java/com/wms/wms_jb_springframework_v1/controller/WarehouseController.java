@@ -1,6 +1,7 @@
 package com.wms.wms_jb_springframework_v1.controller;
 
 import com.wms.wms_jb_springframework_v1.model.Item;
+import com.wms.wms_jb_springframework_v1.model.OrderItem;
 import com.wms.wms_jb_springframework_v1.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,5 +51,11 @@ public class WarehouseController {
     @GetMapping(path = "/searchItem/{keyword}")
     public List<Item> searchItem(@PathVariable("keyword") String keyword) {
         return warehouseService.getSearchItems(keyword);
+    }
+
+    @GetMapping(path = "removeItems/{itemName}/{amount}")
+    public void removeItems(@PathVariable("itemName") String itemName,
+                            @PathVariable("amount") Integer amount) {
+        warehouseService.removeItemsFromRepositoryAfterOrder(itemName, amount);
     }
 }

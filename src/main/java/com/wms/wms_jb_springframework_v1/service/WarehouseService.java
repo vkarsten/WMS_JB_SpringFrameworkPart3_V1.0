@@ -50,19 +50,6 @@ public class WarehouseService {
     }
 
     public void removeItemsFromRepositoryAfterOrder(String item, int orderAmount) {
-//        List<Item> items = WarehouseRepository.getAllItems();
-//        int removedItems = 0;
-//        String itemName;
-//
-//        for (Item element : items) {
-//            if (removedItems == orderAmount) { break; }
-//
-//            itemName = element.getState() + " " + element.getCategory();
-//
-//            if (itemName.equalsIgnoreCase(item)) {
-//                    items.remove(element);
-//                    removedItems++;
-//            }
-//        }
+        WarehouseRepository.removeItems(item, orderAmount);
     }
 }

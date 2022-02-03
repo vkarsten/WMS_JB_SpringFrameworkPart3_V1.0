@@ -8,12 +8,10 @@ import org.json.simple.JSONValue;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The Data Repository
@@ -26,18 +24,24 @@ public class WarehouseRepository {
 
     private static List<Warehouse> WAREHOUSE_LIST = new ArrayList<Warehouse>();
     private static List<Integer> WAREHOUSE_IDS = new ArrayList<Integer>();
+    private static FileWriter f;
 
     /**
      * Load item records from the stock.json file
      */
     static {
+        loadItems("/Users/temporaryadmin/WorkingFolder/Jan19/WMS_JB_SpringFramework_V1/data/stock.json");
+    }
+
+    private static void loadItems(String fileName) {
         // System.out.println("Loading items");
         BufferedReader reader = null;
         try {
             //ITEM_LIST.clear();
             WAREHOUSE_LIST.clear();
+            WAREHOUSE_IDS.clear();
 
-            reader = new BufferedReader(new FileReader("/Users/temporaryadmin/WorkingFolder/Jan19/WMS_JB_SpringFramework_V1/data/stock.json"));
+            reader = new BufferedReader(new FileReader(fileName));
             Object data = JSONValue.parse(reader);
             if (data instanceof JSONArray) {
                 JSONArray dataArray = (JSONArray) data;
@@ -45,6 +49,7 @@ public class WarehouseRepository {
                     if (obj instanceof JSONObject) {
                         JSONObject jsonData = (JSONObject) obj;
                         Item item = new Item();
+
                         item.setState(jsonData.get("state").toString());
                         item.setCategory(jsonData.get("category").toString());
                         String date = jsonData.get("date_of_stock").toString();
@@ -61,7 +66,7 @@ public class WarehouseRepository {
                             warehouse.addItem(item);
                             WAREHOUSE_LIST.add(warehouse);
                         } else {
-                            for(int i=0 ; i< WAREHOUSE_LIST.size(); i++) {
+                            for(int i=0 ; i < WAREHOUSE_LIST.size(); i++) {
                                 if(WAREHOUSE_LIST.get(i).getId() == jsonWarehouseId) {
                                     WAREHOUSE_LIST.get(i).addItem(item);
                                     //break;
@@ -189,6 +194,49 @@ public class WarehouseRepository {
             }
         }
         return items;
+    }
+
+    public static void removeItems(String item, int amount) {
+        List<Item> allItems = getAllItems();
+        int removedItems = 0;
+        String itemName;
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            f = new FileWriter("/Users/temporaryadmin/WorkingFolder/Jan19/WMS_JB_SpringFramework_V1/data/session-stock.json", false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (Item element : allItems) {
+            itemName = element.getState() + " " + element.getCategory();
+
+            if (!itemName.equalsIgnoreCase(item) || removedItems == amount) {
+                JSONObject jsonItem = new JSONObject();
+                jsonItem.put("state", element.getState());
+                jsonItem.put("category", element.getCategory());
+                jsonItem.put("warehouse", element.getWarehouse());
+                String dateOfStock = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(element.getDateOfStock());
+                jsonItem.put("date_of_stock", dateOfStock);
+                jsonArray.add(jsonItem);
+            } else { removedItems++; }
+        }
+
+        try {
+            f.write(jsonArray.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if ( f != null ) {
+                try {
+                    f.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        loadItems("/Users/temporaryadmin/WorkingFolder/Jan19/WMS_JB_SpringFramework_V1/data/session-stock.json");
     }
 
     public static List<Warehouse> getWarehouseList() {
